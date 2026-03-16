@@ -1,0 +1,57 @@
+import java.util.*;
+
+class Result {
+    public static List<Integer> closestNumbers(List<Integer> arr) {
+        // Defensive check
+        if (arr == null || arr.size() < 2) {
+            return new ArrayList<>();
+        }
+
+        // Sort the list
+        Collections.sort(arr);
+
+        // First pass: find the minimum difference between adjacent elements
+        int minDiff = Integer.MAX_VALUE;
+        for (int i = 1; i < arr.size(); i++) {
+            int diff = arr.get(i) - arr.get(i - 1);
+            if (diff < minDiff) {
+                minDiff = diff;
+            }
+        }
+
+        // Second pass: collect all pairs with the minimum difference
+        List<Integer> result = new ArrayList<>();
+        for (int i = 1; i < arr.size(); i++) {
+            int diff = arr.get(i) - arr.get(i - 1);
+            if (diff == minDiff) {
+                result.add(arr.get(i - 1));
+                result.add(arr.get(i));
+            }
+        }
+
+        return result;
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        List<Integer> arr = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            arr.add(sc.nextInt());
+        }
+
+        List<Integer> result = Result.closestNumbers(arr);
+
+        // Print output as space-separated integers
+        for (int i = 0; i < result.size(); i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(result.get(i));
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}
